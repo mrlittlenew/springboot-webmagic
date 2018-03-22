@@ -88,14 +88,18 @@ public class JingdongPageProcesser implements PageProcessor {
         return site;
 
     }
+    
+    
+     
 
-    public static void main(String[] args) throws JMException {
+    public static void main(String startUrl) throws JMException {
     	HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
     	httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("10.12.251.1",8080,"","")));
 
     	Spider spider=Spider.create(new JingdongPageProcesser());
     	//spider.addUrl("https://list.jd.com/list.html?cat=1316,1625,1671");
-    	spider.addUrl("https://item.jd.com/836068.html");
+    	//spider.addUrl("https://item.jd.com/836068.html");
+    	spider.addUrl(startUrl);
     	//spider.thread(50);
     	spider.addPipeline(new ConsolePipeline());
     	spider.addPipeline(new FilePipeline());
