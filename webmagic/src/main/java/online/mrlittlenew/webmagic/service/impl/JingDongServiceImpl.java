@@ -1,6 +1,5 @@
 package online.mrlittlenew.webmagic.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.management.JMException;
@@ -8,16 +7,13 @@ import javax.management.JMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import online.mrlittlenew.webmagic.domain.JingDongPrice;
 import online.mrlittlenew.webmagic.domain.JingDongProduct;
-import online.mrlittlenew.webmagic.dto.JingDongPriceDto;
-import online.mrlittlenew.webmagic.dto.JobStatus;
 import online.mrlittlenew.webmagic.pipeline.SaveToDataBasePipeline;
 import online.mrlittlenew.webmagic.processer.JingdongPageProcesser;
+import online.mrlittlenew.webmagic.processer.JingdongUpdatePriceProcesser;
 import online.mrlittlenew.webmagic.repository.JingDongPriceRepository;
 import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
 import online.mrlittlenew.webmagic.service.JingDongService;
-import online.mrlittlenew.webmagic.util.JingDongUtil;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.monitor.SpiderMonitor;
@@ -46,7 +42,7 @@ public class JingDongServiceImpl implements JingDongService{
 		HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
     	httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("10.12.251.1",8080,"","")));
 
-    	Spider spider=Spider.create(new JingdongPageProcesser());
+    	Spider spider=Spider.create(new JingdongPageProcesser(productRep));
     	spider.addUrl(startUrl);
     	//spider.thread(50);
     	spider.addPipeline(new ConsolePipeline());
@@ -63,18 +59,22 @@ public class JingDongServiceImpl implements JingDongService{
 	}
 
 	@Override
-	public JobStatus updatePrice() {
-		//Sort sort = new Sort(Sort.Direction.DESC,"id");
-		List<JingDongProduct> productList = productRep.findAll();
-		for(JingDongProduct item:productList){
-			JingDongPriceDto priceDto = JingDongUtil.getPriceBySku(item.getSku());
-			JingDongPrice price=new JingDongPrice();
-	    	price.setSku(item.getSku());
-	    	price.setPrice(priceDto.getPrice());
-	    	price.setLastUpdateDate(new Date());
-	    	priceRep.save(price);
-		}
-		return null;
+	public Spider updatePrice()  throws JMException{
+		Spider spider=Spider.create(new JingdongUpdatePriceProcesser());
+    	spider.addPipeline(new ConsolePipeline());
+    	List<JingDongProduct> list = productRep.findAll();
+    	for(JingDongProduct item:list){
+    		String price_url = "https://p.3.cn/prices/mgets?skuIds=J_"+item.getSku();
+    		spider.addUrl(price_url);
+    	}
+    	
+    	if(saveToDataBasePipeline!=null){
+    		spider.addPipeline(saveToDataBasePipeline);
+    	}
+    	SpiderMonitor monitor = SpiderMonitor.instance();
+    	monitor.register(spider);
+    	spider.start();
+    	return spider;
 	}
 	
 	

@@ -22,7 +22,7 @@ public class JingDongProduct {
     private String catId;
     private String shopId;
     private String venderId;
-
+    private Date lastUpdateDate;
     
 
 	public String getSeller() {
@@ -61,7 +61,7 @@ public class JingDongProduct {
 	public void setVenderId(String venderId) {
 		this.venderId = venderId;
 	}
-	private Date lastUpdateDate;
+	
 	public Long getSku() {
 		return sku;
 	}

@@ -1,5 +1,6 @@
 package online.mrlittlenew.webmagic.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,12 +14,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import online.mrlittlenew.webmagic.domain.JingDongPrice;
 import online.mrlittlenew.webmagic.domain.JingDongProduct;
 import online.mrlittlenew.webmagic.dto.JingDongPriceDto;
+import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
 import us.codecraft.webmagic.Page;
 
 public class JingDongUtil {
 	private static Logger logger = LoggerFactory.getLogger(JingDongUtil.class);
 	public static void main(String[] args) {
-		getComment(24436869160l);
+		//getComment(24436869160l);
+		String link="https://item.jd.com/2811500.html";
+		Pattern pattern = Pattern.compile("https://item\\.jd\\.com/\\d+.html");
+		Matcher matcher = pattern.matcher(link);
+        System.out.println(matcher.matches());
 	}
 	
 	
@@ -48,10 +54,10 @@ public class JingDongUtil {
 		return priceDto;
 	}
 	
-	public static void handleProductPage(Page page,boolean updatePrice){
+	public static boolean handleProductPage(Page page,boolean updatePrice){
 		boolean match = page.getUrl().regex("https://item\\.jd\\.com/\\d+.html").match();
         if(!match){
-        	return;
+        	return match;
         }
         logger.debug("handleProductPage:"+page.getUrl());
         
@@ -120,11 +126,8 @@ public class JingDongUtil {
     	
 		
 		//=================================================================
-    	double priceNum=0;
-    	if(updatePrice){
-    		JingDongPriceDto priceDto = JingDongUtil.getPriceBySku(sku);
-    		priceNum = priceDto.getPrice();
-    	}
+
+    	
     	
 		//保存数据到PO
     	JingDongProduct item=new JingDongProduct();
@@ -138,27 +141,58 @@ public class JingDongUtil {
     	item.setCatId(catId);
     	item.setShopId(shopId);
     	item.setVenderId(venderId);
-    	
-    	JingDongPrice price=new JingDongPrice();
-    	price.setSku(sku);
-    	price.setPrice(priceNum);
-    	
     	page.putField("item", item);
-    	page.putField("price", price);
+    	
+    	JingDongPrice price=null;
+    	if(updatePrice){
+    		JingDongPriceDto priceDto = JingDongUtil.getPriceBySku(sku);
+    		double priceNum = priceDto.getPrice();
+    		price=new JingDongPrice();
+        	price.setSku(sku);
+        	price.setPrice(priceNum);
+        	page.putField("price", price);
+    	}
+
+    	return match;
     }
 	
-    public static void handleListPage(Page page){
+    public static boolean handleListPage(Page page,JingDongProductRepository productRep){
     	boolean match = page.getUrl().regex("https://list\\.jd\\.com/list\\.html?\\w+").match();
 	    if(!match){
-	    	return;
+	    	return match;
 	    }
 	    logger.debug("handleListPage:"+page.getUrl());
     	//获取产品链接
     	List<String> productLinks = page.getHtml().xpath("//div[@id='plist']//li//div[@class='p-name']/a").links().all();
+    	productLinks=removeDuplicateUrl(productLinks, productRep);
     	page.addTargetRequests(productLinks);
     	//获取列表页翻页
     	List<String> listPageLinks = page.getHtml().xpath("//div[@class='page']/div[@id='J_bottomPage']//a").links().all();
     	page.addTargetRequests(listPageLinks);
     	page.setSkip(true);
+    	return match;
+    }
+    
+    public static List<String> removeDuplicateUrl(List<String> productLinks,JingDongProductRepository productRep){
+    	List<String> list=new ArrayList<String>();
+    	for(String link:productLinks){
+    		Pattern pattern = Pattern.compile("https://item\\.jd\\.com/\\d+.html");
+    		Matcher matcher = pattern.matcher(link);
+            if(!matcher.matches()){
+            	list.add(link);
+            	continue;
+            }
+            
+        	String skuStr = link.split("/")[3].replace(".html", "");
+        	Long sku=Long.valueOf(skuStr);
+        	JingDongProduct product = productRep.findOne(sku);
+        	if(product==null){
+        		list.add(link);
+            	continue;
+        	}else{
+        		logger.info("found duplicate item sku:"+sku);
+        	}
+    	}
+    	return list;
     }
 }

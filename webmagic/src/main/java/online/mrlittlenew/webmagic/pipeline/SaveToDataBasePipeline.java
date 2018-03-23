@@ -23,19 +23,22 @@ public class SaveToDataBasePipeline implements Pipeline{
 	private JingDongProductRepository productRep;
 	@Autowired
 	private JingDongPriceRepository priceRep;
-	/*public SaveToDataBasePipeline(JingDongProductRepository productRep, JingDongPriceRepository priceRep) {
-		this.productRep=productRep;
-		this.priceRep=priceRep;
-	}*/
+
 	@Override
 	public void process(ResultItems resultItems, Task task) {
 		Date now=new Date();
 		JingDongProduct item=resultItems.get("item");
-		item.setLastUpdateDate(now);
+		if(item!=null){
+			item.setLastUpdateDate(now);
+			productRep.save(item);	
+		}
+
 		JingDongPrice price=resultItems.get("price");
-		price.setLastUpdateDate(now);
-		productRep.save(item);	
-		priceRep.save(price);	
+		if(price!=null){
+			price.setLastUpdateDate(now);
+			priceRep.save(price);	
+		}
+	
 	}
 
 }

@@ -24,6 +24,7 @@ public class JingDongController {
 
 	public static void main(String[] args) throws JMException {
 		new JingDongServiceImpl().process("5327329");
+		//https://www.jd.com/allSort.aspx
 	}
 	@RequestMapping("/jingdong")
 	public String jingdong(@RequestParam("jobName") String jobName,@RequestParam("action") String action) {
@@ -44,8 +45,16 @@ public class JingDongController {
 	}
 	
 	@RequestMapping("/updatePrice")
-	public JobStatus updatePrice() {
-		return jingDongService.updatePrice();
+	public String updatePrice(@RequestParam("jobName") String jobName) {
+		//return jingDongService.updatePrice();
+		try {
+			Spider spider=jingDongService.updatePrice();
+			spiderMap.put(jobName, spider);
+		} catch (JMException e) {
+			e.printStackTrace();
+		}
+
+		return "开始计划，jobName="+jobName;
 	}
 
 }
