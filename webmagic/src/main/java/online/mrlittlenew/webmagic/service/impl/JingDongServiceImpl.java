@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import online.mrlittlenew.webmagic.domain.JingDongProduct;
 import online.mrlittlenew.webmagic.pipeline.SaveToDataBasePipeline;
-import online.mrlittlenew.webmagic.processer.JingdongPageProcesser;
-import online.mrlittlenew.webmagic.processer.JingdongUpdatePriceProcesser;
+import online.mrlittlenew.webmagic.processer.JingDongPageProcesser;
+import online.mrlittlenew.webmagic.processer.JingDongUpdatePriceProcesser;
 import online.mrlittlenew.webmagic.repository.JingDongPriceRepository;
 import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
 import online.mrlittlenew.webmagic.service.JingDongService;
@@ -42,7 +42,7 @@ public class JingDongServiceImpl implements JingDongService{
 		HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
     	httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("10.12.251.1",8080,"","")));
 
-    	Spider spider=Spider.create(new JingdongPageProcesser(productRep));
+    	Spider spider=Spider.create(new JingDongPageProcesser(productRep));
     	spider.addUrl(startUrl);
     	//spider.thread(50);
     	spider.addPipeline(new ConsolePipeline());
@@ -60,7 +60,7 @@ public class JingDongServiceImpl implements JingDongService{
 
 	@Override
 	public Spider updatePrice()  throws JMException{
-		Spider spider=Spider.create(new JingdongUpdatePriceProcesser());
+		Spider spider=Spider.create(new JingDongUpdatePriceProcesser());
     	spider.addPipeline(new ConsolePipeline());
     	List<JingDongProduct> list = productRep.findAll();
     	for(JingDongProduct item:list){

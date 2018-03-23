@@ -8,9 +8,9 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 
-public class JingdongUpdatePriceProcesser implements PageProcessor {
+public class JingDongUpdatePriceProcesser implements PageProcessor {
 	
-	private static Logger logger = LoggerFactory.getLogger(JingdongUpdatePriceProcesser.class);
+	private static Logger logger = LoggerFactory.getLogger(JingDongUpdatePriceProcesser.class);
 	private Site site = Site.me().setRetryTimes(3).setSleepTime(1000).setTimeOut(6000).addHeader("Accept-Encoding", "/")
 			.setUserAgent(HttpClientUtil.USER_AGENT);
 

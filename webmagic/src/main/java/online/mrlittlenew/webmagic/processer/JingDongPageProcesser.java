@@ -10,15 +10,15 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 
-public class JingdongPageProcesser implements PageProcessor {
+public class JingDongPageProcesser implements PageProcessor {
 	
 	private JingDongProductRepository productRep;
 	
-	private static Logger logger = LoggerFactory.getLogger(JingdongPageProcesser.class);
+	private static Logger logger = LoggerFactory.getLogger(JingDongPageProcesser.class);
 	private Site site = Site.me().setRetryTimes(3).setSleepTime(1000).setTimeOut(6000).addHeader("Accept-Encoding", "/")
 			.setUserAgent(HttpClientUtil.USER_AGENT);
 
-	public JingdongPageProcesser(JingDongProductRepository productRep) {
+	public JingDongPageProcesser(JingDongProductRepository productRep) {
 		this.productRep=productRep;
 	}
 
