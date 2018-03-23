@@ -2,15 +2,18 @@ package online.mrlittlenew.webmagic.pipeline;
 
 import java.util.Date;
 
+import online.mrlittlenew.webmagic.domain.JingDongPrice;
+import online.mrlittlenew.webmagic.domain.JingDongProduct;
+import online.mrlittlenew.webmagic.domain.JingDongProductHtml;
+import online.mrlittlenew.webmagic.repository.JingDongPriceRepository;
+import online.mrlittlenew.webmagic.repository.JingDongProductHtmlRepository;
+import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import online.mrlittlenew.webmagic.domain.JingDongPrice;
-import online.mrlittlenew.webmagic.domain.JingDongProduct;
-import online.mrlittlenew.webmagic.repository.JingDongPriceRepository;
-import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
@@ -22,6 +25,8 @@ public class SaveToDataBasePipeline implements Pipeline{
 	@Autowired
 	private JingDongProductRepository productRep;
 	@Autowired
+	private JingDongProductHtmlRepository htmlRep;
+	@Autowired
 	private JingDongPriceRepository priceRep;
 
 	@Override
@@ -31,6 +36,12 @@ public class SaveToDataBasePipeline implements Pipeline{
 		if(item!=null){
 			item.setLastUpdateDate(now);
 			productRep.save(item);	
+		}
+		
+		JingDongProductHtml html=resultItems.get("html");
+		if(item!=null){
+			html.setLastUpdateDate(now);
+			htmlRep.save(html);	
 		}
 
 		JingDongPrice price=resultItems.get("price");

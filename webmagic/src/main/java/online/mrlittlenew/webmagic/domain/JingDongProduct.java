@@ -14,7 +14,6 @@ public class JingDongProduct {
     @Id
     private Long sku;
     private String name;
-    private String html;
     private String shopName;
     private String seller;
     private String catName;
@@ -86,12 +85,6 @@ public class JingDongProduct {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public String getHtml() {
-		return html;
-	}
-	public void setHtml(String html) {
-		this.html = html;
-	}
 	public String getShopName() {
 		return shopName;
 	}

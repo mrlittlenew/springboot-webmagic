@@ -26,8 +26,9 @@ public class JingDongPageProcesser implements PageProcessor {
 		logger.info("Page Url:" + page.getUrl());
 		//logger.info(page.getRawText());
 		boolean updatePrice = false;
+		boolean updateProduct = true;
 		JingDongUtil.handleProductPage(page, updatePrice);
-		JingDongUtil.handleListPage(page,productRep);
+		JingDongUtil.handleListPage(page,productRep,updateProduct );
 	}
 
 	public Site getSite() {

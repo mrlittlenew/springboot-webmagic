@@ -4,9 +4,6 @@ import java.util.List;
 
 import javax.management.JMException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import online.mrlittlenew.webmagic.domain.JingDongProduct;
 import online.mrlittlenew.webmagic.pipeline.SaveToDataBasePipeline;
 import online.mrlittlenew.webmagic.processer.JingDongPageProcesser;
@@ -14,12 +11,17 @@ import online.mrlittlenew.webmagic.processer.JingDongUpdatePriceProcesser;
 import online.mrlittlenew.webmagic.repository.JingDongPriceRepository;
 import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
 import online.mrlittlenew.webmagic.service.JingDongService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.monitor.SpiderMonitor;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.SimpleProxyProvider;
+import us.codecraft.webmagic.scheduler.FileCacheQueueScheduler;
 
 @Service
 public class JingDongServiceImpl implements JingDongService{
@@ -44,6 +46,7 @@ public class JingDongServiceImpl implements JingDongService{
 
     	Spider spider=Spider.create(new JingDongPageProcesser(productRep));
     	spider.addUrl(startUrl);
+    	spider.setScheduler(new FileCacheQueueScheduler("/data/webmagic/scheduler"));
     	//spider.thread(50);
     	spider.addPipeline(new ConsolePipeline());
     	if(saveToDataBasePipeline!=null){

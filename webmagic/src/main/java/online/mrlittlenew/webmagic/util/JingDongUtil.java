@@ -5,17 +5,19 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import online.mrlittlenew.webmagic.domain.JingDongPrice;
+import online.mrlittlenew.webmagic.domain.JingDongProduct;
+import online.mrlittlenew.webmagic.domain.JingDongProductHtml;
+import online.mrlittlenew.webmagic.dto.JingDongPriceDto;
+import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import us.codecraft.webmagic.Page;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import online.mrlittlenew.webmagic.domain.JingDongPrice;
-import online.mrlittlenew.webmagic.domain.JingDongProduct;
-import online.mrlittlenew.webmagic.dto.JingDongPriceDto;
-import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
-import us.codecraft.webmagic.Page;
 
 public class JingDongUtil {
 	private static Logger logger = LoggerFactory.getLogger(JingDongUtil.class);
@@ -133,7 +135,6 @@ public class JingDongUtil {
     	JingDongProduct item=new JingDongProduct();
     	item.setSku(sku);
     	item.setName(name);
-    	item.setHtml(page.getRawText());
     	item.setShopName(shopName);
     	item.setSeller(seller);
     	item.setCatName(catName);
@@ -142,6 +143,11 @@ public class JingDongUtil {
     	item.setShopId(shopId);
     	item.setVenderId(venderId);
     	page.putField("item", item);
+    	
+    	JingDongProductHtml html=new JingDongProductHtml();
+    	html.setSku(sku);
+    	html.setHtml(page.getRawText());
+    	page.putField("html", html);
     	
     	JingDongPrice price=null;
     	if(updatePrice){
@@ -156,7 +162,7 @@ public class JingDongUtil {
     	return match;
     }
 	
-    public static boolean handleListPage(Page page,JingDongProductRepository productRep){
+    public static boolean handleListPage(Page page,JingDongProductRepository productRep,boolean updateProduct){
     	boolean match = page.getUrl().regex("https://list\\.jd\\.com/list\\.html?\\w+").match();
 	    if(!match){
 	    	return match;
@@ -164,7 +170,9 @@ public class JingDongUtil {
 	    logger.debug("handleListPage:"+page.getUrl());
     	//获取产品链接
     	List<String> productLinks = page.getHtml().xpath("//div[@id='plist']//li//div[@class='p-name']/a").links().all();
-    	productLinks=removeDuplicateUrl(productLinks, productRep);
+    	if(!updateProduct){
+    		productLinks=removeDuplicateUrl(productLinks, productRep);
+    	}
     	page.addTargetRequests(productLinks);
     	//获取列表页翻页
     	List<String> listPageLinks = page.getHtml().xpath("//div[@class='page']/div[@id='J_bottomPage']//a").links().all();
@@ -185,8 +193,10 @@ public class JingDongUtil {
             
         	String skuStr = link.split("/")[3].replace(".html", "");
         	Long sku=Long.valueOf(skuStr);
+        	//boolean exist = productRep.exists(sku);
+        	//if(!exist){
         	JingDongProduct product = productRep.findOne(sku);
-        	if(product==null){
+        	if(product==null||product.getCatName()==null){
         		list.add(link);
             	continue;
         	}else{
