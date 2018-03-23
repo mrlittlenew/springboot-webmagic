@@ -14,9 +14,54 @@ public class JingDongProduct {
     @Id
     private Long sku;
     private String name;
-    private Double lastPrice;
-    private String url;
-    private Date lastUpdateDate;
+    private String html;
+    private String shopName;
+    private String seller;
+    private String catName;
+    private String description;
+    private String catId;
+    private String shopId;
+    private String venderId;
+
+    
+
+	public String getSeller() {
+		return seller;
+	}
+	public void setSeller(String seller) {
+		this.seller = seller;
+	}
+	public String getCatName() {
+		return catName;
+	}
+	public void setCatName(String catName) {
+		this.catName = catName;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getCatId() {
+		return catId;
+	}
+	public void setCatId(String catId) {
+		this.catId = catId;
+	}
+	public String getShopId() {
+		return shopId;
+	}
+	public void setShopId(String shopId) {
+		this.shopId = shopId;
+	}
+	public String getVenderId() {
+		return venderId;
+	}
+	public void setVenderId(String venderId) {
+		this.venderId = venderId;
+	}
+	private Date lastUpdateDate;
 	public Long getSku() {
 		return sku;
 	}
@@ -40,18 +85,20 @@ public class JingDongProduct {
 	public void setLastUpdateDate(Date lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
 	}
-	public String getUrl() {
-		return url;
+
+	public String getHtml() {
+		return html;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setHtml(String html) {
+		this.html = html;
 	}
-	public Double getLastPrice() {
-		return lastPrice;
+	public String getShopName() {
+		return shopName;
 	}
-	public void setLastPrice(Double lastPrice) {
-		this.lastPrice = lastPrice;
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
 	}
+
    
     
     

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import online.mrlittlenew.webmagic.domain.JingDongPrice;
@@ -18,12 +19,14 @@ public class SaveToDataBasePipeline implements Pipeline{
 
 	private static Logger logger = LoggerFactory.getLogger(SaveToDataBasePipeline.class);
 	
+	@Autowired
 	private JingDongProductRepository productRep;
+	@Autowired
 	private JingDongPriceRepository priceRep;
-	public SaveToDataBasePipeline(JingDongProductRepository productRep, JingDongPriceRepository priceRep) {
+	/*public SaveToDataBasePipeline(JingDongProductRepository productRep, JingDongPriceRepository priceRep) {
 		this.productRep=productRep;
 		this.priceRep=priceRep;
-	}
+	}*/
 	@Override
 	public void process(ResultItems resultItems, Task task) {
 		Date now=new Date();

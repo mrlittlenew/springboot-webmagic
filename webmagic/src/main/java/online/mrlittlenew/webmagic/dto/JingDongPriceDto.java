@@ -59,8 +59,10 @@ public class JingDongPriceDto implements Serializable{
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	@Override
+	public String toString() {
+		return "JingDongPriceDto [originalPrice=" + originalPrice + ", officialPrice=" + officialPrice + ", id=" + id
+				+ ", price=" + price + ", tpp=" + tpp + ", up=" + up + "]";
+	}
 
-	
-	
-	
 }
