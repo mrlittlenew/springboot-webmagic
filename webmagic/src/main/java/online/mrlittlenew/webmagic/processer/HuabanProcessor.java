@@ -1,4 +1,4 @@
-package online.mrlittlenew.webmagic;
+package online.mrlittlenew.webmagic.processer;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

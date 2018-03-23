@@ -1,4 +1,4 @@
-package online.mrlittlenew.webmagic;
+package online.mrlittlenew.webmagic.processer;
 
 import java.util.List;
 
@@ -10,14 +10,15 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import online.mrlittlenew.webmagic.domain.JingDongProduct;
 import online.mrlittlenew.webmagic.dto.JingDongPriceDto;
+import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.monitor.SpiderMonitor;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
-import us.codecraft.webmagic.pipeline.FilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.SimpleProxyProvider;
@@ -45,18 +46,19 @@ public class JingdongPageProcesser implements PageProcessor {
         if(match){
         	handleProductPage(page);
         }else{
-        	//handleListPage(page);
+        	handleListPage(page);
         }
     }
     public void handleListPage(Page page){
     	//获取产品链接
     	List<String> productLinks = page.getHtml().xpath("//div[@id='plist']//li//div[@class='p-name']/a").links().all();
     	//logger.info("productLinks size:"+productLinks.size());
-    	//page.addTargetRequests(productLinks);
+    	page.addTargetRequests(productLinks);
     	//获取列表页翻页
     	List<String> listPageLinks = page.getHtml().xpath("//div[@class='page']/div[@id='J_bottomPage']//a").links().all();
     	//logger.info("listPageLinks size:"+listPageLinks.size());
     	page.addTargetRequests(listPageLinks);
+    	page.setSkip(true);
     }
     
     public void handleProductPage(Page page){
@@ -75,12 +77,17 @@ public class JingdongPageProcesser implements PageProcessor {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-    	logger.info("----------------------");
+		logger.info("sku:"+sku);
+    	/*logger.info("----------------------");
     	logger.info("sku:"+sku);
     	logger.info("name:"+name);
     	logger.info("price:"+priceDto.getPrice());
-    	logger.info("----------------------");
+    	logger.info("----------------------");*/
+    	JingDongProduct item=new JingDongProduct();
+    	item.setSku(Long.valueOf(sku));
+    	item.setName(name);
+    	item.setPrice(priceDto.getPrice());
+    	page.putField("item", item);
     }
 
 
@@ -88,11 +95,8 @@ public class JingdongPageProcesser implements PageProcessor {
         return site;
 
     }
-    
-    
-     
 
-    public static void main(String startUrl) throws JMException {
+    public static void main(String startUrl,JingDongProductRepository jingDongProductRepository) throws JMException {
     	HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
     	httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("10.12.251.1",8080,"","")));
 
@@ -102,9 +106,8 @@ public class JingdongPageProcesser implements PageProcessor {
     	spider.addUrl(startUrl);
     	//spider.thread(50);
     	spider.addPipeline(new ConsolePipeline());
-    	spider.addPipeline(new FilePipeline());
-    	//spider.setDownloader(httpClientDownloader);
-    	
+    	spider.addPipeline(new SaveToDataBasePipeline(jingDongProductRepository));
+    	spider.setDownloader(httpClientDownloader);
     	SpiderMonitor.instance().register(spider);
     	spider.start();
     }
