@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <table class="table">
+  <caption>基本的表格布局</caption>
+  <thead>
+    <tr>
+      <!-- <th>序号</th> -->
+      <th>货号</th>
+      <th>名称</th>
+      <th>店名</th>
+      <th>分类</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+	<tr th:each="product:${data}">
+		<!-- <td th:text="${productStat.count}">1</td> -->
+		<td th:text="${product.sku}">Red Chair</td>
+		<td th:text="${product.name}">Red Chair</td>
+		<td th:text="${product.shopName}">Red Chair</td>
+		<td th:text="${product.catName}">Red Chair</td>
+	</tr>
+  </tbody>
+</table>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/webjars/jquery/jquery.js"></script>
+    <script src="/webjars/popper.js/1.12.9-1/popper.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>

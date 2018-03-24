@@ -7,15 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
 
 
-	@RequestMapping("/test")
-	String test() {
+	@RequestMapping("/hello")
+	String hello() {
 
 		return "Hello Spring Boot test";
-	}
-
-	@RequestMapping("/")
-	String index() {
-		return "Hello Spring Boot";
 	}
 
 }
