@@ -13,15 +13,16 @@
   <body>
     <h1>Hello, world!</h1>
 	<p>
-		<button type="button" id='create' class="btn btn-default">创建</button>
-		<button type="button" id='status' class="btn btn-default">状态</button>
+		<button type="button" id='create' class="btn btn-default"> 创 建  </button>
+		<button type="button" id='status' class="btn btn-default"> 状 态  </button>
+		<button type="button" id='list'   class="btn btn-default"> 列 表  </button>
+	</p>                                                                
+	<p>                                                                 
+		<button type="button" id='start'  class="btn btn-default"> 开 始  </button>
+		<button type="button" id='stop'   class="btn btn-default"> 暂 停  </button>
+		<button type="button" id='result' class="btn btn-default"> 结 果  </button>
 	</p>
-	<p>
-		<button type="button" id='start' class="btn btn-default">开始</button>
-		<button type="button" id='stop' class="btn btn-default">暂停</button>
-	</p>
-	
-	
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -60,6 +61,16 @@ function buttonInit(){
 	        console.info(result);
 	        alert("stop");
 	    }});
+	});
+	$("#list").click(function(){
+		console.info("list");
+	    $.ajax({url:"list",success:function(result){
+	        console.info(result);
+	        alert(result);
+	    }});
+	});
+	$("#result").click(function(){
+		window.location.href="product";
 	});
 }
 
