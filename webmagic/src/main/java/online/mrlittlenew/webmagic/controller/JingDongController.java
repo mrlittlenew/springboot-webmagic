@@ -28,13 +28,13 @@ public class JingDongController {
 		//https://www.jd.com/allSort.aspx
 	}
 	@RequestMapping("/jingdong")
-	public String jingdong(@RequestParam("jobName") String jobName,@RequestParam("action") String action) {
+	public String jingdong(@RequestParam("jobName") String jobName) {
 		Spider spiderFromMap=spiderMap.get(jobName);
 		if(spiderFromMap!=null){
 			return "已经存在，jobName="+jobName;
 		}
 		try {
-			Spider spider=jingDongService.process(action);
+			Spider spider=jingDongService.process("all");
 			spiderMap.put(jobName, spider);
 		} catch (JMException e) {
 			e.printStackTrace();
