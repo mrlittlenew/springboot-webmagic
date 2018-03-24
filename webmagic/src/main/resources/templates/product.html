@@ -16,7 +16,7 @@
   <thead>
     <tr>
       <!-- <th>序号</th> -->
-      <th>货号</th>
+      <!-- <th>货号</th> -->
       <th>名称</th>
       <th>价格</th>
       <th>店名</th>
@@ -26,8 +26,8 @@
   
 	<tr th:each="product:${data}">
 		<!-- <td th:text="${productStat.count}">1</td> -->
-		<td th:text="${product.sku}">Red Chair</td>
-		<td th:text="${product.name}">Red Chair</td>
+		<!-- <td th:text="${product.sku}">Red Chair</td> -->
+		<td><a href="https://item.jd.com/6080600.html" target="_blank" th:href="@{'https://item.jd.com/'+${product.sku}+'.html'}"  th:text="${product.name}">Red Chair</a></td>
 		<td th:text="${product.price}">Red Chair</td>
 		<td th:text="${product.shopName}">Red Chair</td>	
 	</tr>

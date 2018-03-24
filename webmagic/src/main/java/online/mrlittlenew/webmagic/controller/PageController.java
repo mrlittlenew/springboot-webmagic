@@ -48,7 +48,7 @@ public class PageController {
 	@RequestMapping("/product")
 	String product(Model model) {
 		Sort sort = new Sort(Direction.DESC, "lastUpdateDate");
-		Pageable pageable = new PageRequest(0, 100, sort);
+		Pageable pageable = new PageRequest(0, 30, sort);
 		Page<JingDongProduct> list = productRep.findAll(pageable);
 		List<JingDongProductDto> data=new ArrayList<JingDongProductDto>(); 
 		for(JingDongProduct p:list){
