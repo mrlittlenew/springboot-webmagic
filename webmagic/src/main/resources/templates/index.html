@@ -41,32 +41,33 @@ function buttonInit(){
 	$("#create").click(function(){
 	    $.ajax({url:"jingdong?jobName=abc",success:function(result){
 	        console.info(result);
+	        alert("创建成功");
 	    }});
 	});
 	$("#status").click(function(){
 	    $.ajax({url:"getStatus?jobName=abc",success:function(result){
 	        console.info(result);
-	        alert("目前总数："+result.totalRequestsCount+"\n队列数目："+result.leftRequestsCount);
+	        alert("目前状态："+result.running+"\n目前总数："+result.totalRequestsCount+"\n队列数目："+result.leftRequestsCount);
 	    }});
 	});
 	$("#start").click(function(){
 		console.info("start");
 	    $.ajax({url:"start?jobName=abc",success:function(result){
 	        console.info(result);
-	        alert("start");
+	        alert("已开始");
 	    }});
 	});
 	$("#stop").click(function(){
 	    $.ajax({url:"stop?jobName=abc",success:function(result){
 	        console.info(result);
-	        alert("stop");
+	        alert("已暂停");
 	    }});
 	});
 	$("#list").click(function(){
 		console.info("list");
 	    $.ajax({url:"list",success:function(result){
 	        console.info(result);
-	        alert(result);
+	        alert("目前列表："result);
 	    }});
 	});
 	$("#result").click(function(){
