@@ -27,12 +27,12 @@ public class JingDongProductHandler{
 		logger.info("product.getCatId():"+product.getCatId());
 		for(JingDongProductInfoHandler handler:handlerList){
 			if(product.getCatId()!=null&&product.getCatId().contains(handler.getCatId())){
-				handleInfo( product,handler.getCategories(),handler.getUnit(),handler.getKeyWord(),handler.isHasNumber());
+				handleInfo( product,handler.getCategories(),handler.getUnit(),handler.getKeyWord(),handler.getHasNumber());
 			}
 		}
 	}
 	
-	private void handleInfo(JingDongProduct product,String categories,String unit,String keyword,boolean hasNum) {
+	private void handleInfo(JingDongProduct product,String categories,String unit,String keyword,String hasNum) {
 		logger.info("handleInfo:"+product.getName()+","+categories+","+unit+","+keyword);
 		JingDongProductInfo info =productInfoRep.findBySkuAndCategoriesAndUnit(product.getSku(), categories, unit);
 		if(info==null){
@@ -48,6 +48,11 @@ public class JingDongProductHandler{
 			return;
 		}
 		//处理数字
+		if("Y".equals(hasNum)){
+			
+		}else{
+			info.setNum(0d);
+		}
 		
 		//保存到数据库
 		productInfoRep.save(info);

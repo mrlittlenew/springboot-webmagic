@@ -17,6 +17,11 @@ public class JingDongProductInfoHandler {
     private Long id;
     private String catId;
     private String categories;
+	private String unit;
+    private String keyWord;
+    private String hasNumber;
+    private Date lastUpdateDate;
+    
     public String getCatId() {
 		return catId;
 	}
@@ -29,16 +34,7 @@ public class JingDongProductInfoHandler {
 	public void setKeyWord(String keyWord) {
 		this.keyWord = keyWord;
 	}
-	public boolean isHasNumber() {
-		return hasNumber;
-	}
-	public void setHasNumber(boolean hasNumber) {
-		this.hasNumber = hasNumber;
-	}
-	private String unit;
-    private String keyWord;
-    private boolean hasNumber;
-    private Date lastUpdateDate;
+
 	public Long getId() {
 		return id;
 	}
@@ -64,6 +60,12 @@ public class JingDongProductInfoHandler {
 	}
 	public void setCategories(String categories) {
 		this.categories = categories;
+	}
+	public String getHasNumber() {
+		return hasNumber;
+	}
+	public void setHasNumber(String hasNumber) {
+		this.hasNumber = hasNumber;
 	}
 	
 }
