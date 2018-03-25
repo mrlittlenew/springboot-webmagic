@@ -24,7 +24,8 @@ public class JingDongController {
 	private Map<String,Spider> spiderMap=new HashMap<String,Spider>();
 
 	public static void main(String[] args) throws JMException {
-		new JingDongServiceImpl().process("5327329");
+		//new JingDongServiceImpl().process("5327329");
+		new JingDongServiceImpl().updatePrice();
 		//https://www.jd.com/allSort.aspx
 	}
 	@RequestMapping("/jingdong")
@@ -61,25 +62,35 @@ public class JingDongController {
 	@RequestMapping("/stop")
 	public JobStatus stop(@RequestParam("jobName") String jobName) {
 		Spider spider=spiderMap.get(jobName);
-		spider.stop();
+		if(spider!=null){
+			spider.stop();
+		}
 		return JobStatus.build(spider);
 	}
 	@RequestMapping("/start")
 	public JobStatus start(@RequestParam("jobName") String jobName) {
 		Spider spider=spiderMap.get(jobName);
-		spider.start();
+		if(spider!=null){
+			spider.start();
+		}
 		return JobStatus.build(spider);
 	}
 	@RequestMapping("/wait")
 	public JobStatus wait(@RequestParam("jobName") String jobName) throws InterruptedException {
 		Spider spider=spiderMap.get(jobName);
-		spider.wait();
+		if(spider!=null){
+			spider.wait();
+		}
 		return JobStatus.build(spider);
 	}
 	
 	@RequestMapping("/updatePrice")
 	public String updatePrice(@RequestParam("jobName") String jobName) {
-		//return jingDongService.updatePrice();
+		Spider spiderFromMap=spiderMap.get(jobName);
+		if(spiderFromMap!=null){
+			spiderFromMap.close();
+			spiderMap.remove(jobName);
+		}
 		try {
 			Spider spider=jingDongService.updatePrice();
 			spiderMap.put(jobName, spider);
@@ -87,7 +98,7 @@ public class JingDongController {
 			e.printStackTrace();
 		}
 
-		return "开始计划，jobName="+jobName;
+		return "开始计划更新价格，jobName="+jobName;
 	}
 
 }

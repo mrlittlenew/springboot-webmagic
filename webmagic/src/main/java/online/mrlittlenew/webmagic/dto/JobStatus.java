@@ -15,6 +15,7 @@ public class JobStatus implements Serializable{
 		JobStatus status=new JobStatus();
 		if(spider==null){
 			status.setMessage("没有该Job！");
+			status.setRunning("");
 			return status;
 		}
 		if (spider.getScheduler() instanceof MonitorableScheduler) {
@@ -30,9 +31,9 @@ public class JobStatus implements Serializable{
 		status.setMessage("获取状态失败!");
 		return status;
 	}
-	private String message;
+	private String message="";
 	private Date startTime;
-	private String running;
+	private String running="";
 	private int totalRequestsCount;
 	private int leftRequestsCount;
 	public Date getStartTime() {

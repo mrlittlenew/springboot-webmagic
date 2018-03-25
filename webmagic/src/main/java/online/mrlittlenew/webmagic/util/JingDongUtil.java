@@ -43,10 +43,14 @@ public class JingDongUtil {
 	
 	public static JingDongPriceDto getPriceBySku(Long sku){
 		String price_url = "https://p.3.cn/prices/mgets?skuIds=J_";
-		JingDongPriceDto priceDto = new JingDongPriceDto();
 		String jsonStr = HttpClientUtil.getJson(price_url+sku);
-    	ObjectMapper mapper = new ObjectMapper();  
-    	
+		JingDongPriceDto priceDto = getPriceDtoFromJson(jsonStr);
+		return priceDto;
+	}
+	
+	public static JingDongPriceDto getPriceDtoFromJson(String jsonStr){
+		JingDongPriceDto priceDto = new JingDongPriceDto();
+		ObjectMapper mapper = new ObjectMapper();  
 		try {
 			List<JingDongPriceDto> priceDtos = mapper.readValue(jsonStr, new TypeReference<List<JingDongPriceDto>>() { });
 			priceDto=priceDtos.get(0);

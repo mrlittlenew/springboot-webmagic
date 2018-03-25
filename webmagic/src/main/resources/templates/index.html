@@ -18,9 +18,17 @@
 		<button type="button" id='list'   class="btn btn-default"> 列 表  </button>
 	</p>                                                                
 	<p>                                                                 
-		<button type="button" id='start'  class="btn btn-default"> 开 始  </button>
+		<button type="button" id='start'  class="btn btn-default"> 继 续  </button>
 		<button type="button" id='stop'   class="btn btn-default"> 暂 停  </button>
 		<button type="button" id='result' class="btn btn-default"> 结 果  </button>
+	</p>
+	<p>                                                                 
+		<button type="button" id='price'  class="btn btn-default"> 更 新 价 格  </button>
+		<button type="button" id='priceStatus' class="btn btn-default"> 更 新 状 态  </button>
+	</p>
+	<p> 
+		<button type="button" id='priceStart'  class="btn btn-default"> 继 续 更 新  </button>
+		<button type="button" id='priceStop'   class="btn btn-default"> 暂 停 更 新  </button>
 	</p>
 
 
@@ -39,28 +47,36 @@ $(function(){
 
 function buttonInit(){
 	$("#create").click(function(){
-	    $.ajax({url:"jingdong?jobName=abc",success:function(result){
+	    $.ajax({url:"jingdong?jobName=获取商品",success:function(result){
 	        console.info(result);
 	        alert("创建成功");
 	    }});
 	});
 	$("#status").click(function(){
-	    $.ajax({url:"getStatus?jobName=abc",success:function(result){
+	    $.ajax({url:"getStatus?jobName=获取商品",success:function(result){
 	        console.info(result);
-	        alert("目前状态："+result.running+"\n目前总数："+result.totalRequestsCount+"\n队列数目："+result.leftRequestsCount);
+	        alert("信息："+result.message+"\n目前状态："+result.running+"\n目前总数："+result.totalRequestsCount+"\n队列数目："+result.leftRequestsCount);
 	    }});
 	});
 	$("#start").click(function(){
 		console.info("start");
-	    $.ajax({url:"start?jobName=abc",success:function(result){
+	    $.ajax({url:"start?jobName=获取商品",success:function(result){
 	        console.info(result);
-	        alert("已开始");
+	        if(result.message){
+	        	alert(result.message);
+	        }else{
+	        	alert("已开始");
+	        }
 	    }});
 	});
 	$("#stop").click(function(){
-	    $.ajax({url:"stop?jobName=abc",success:function(result){
+	    $.ajax({url:"stop?jobName=获取商品",success:function(result){
 	        console.info(result);
-	        alert("已暂停");
+	        if(result.message){
+	        	alert(result.message);
+	        }else{
+	        	alert("已暂停");
+	        }
 	    }});
 	});
 	$("#list").click(function(){
@@ -72,6 +88,39 @@ function buttonInit(){
 	});
 	$("#result").click(function(){
 		window.location.href="product";
+	});
+	$("#price").click(function(){
+	    $.ajax({url:"updatePrice?jobName=更新价格",success:function(result){
+	        console.info(result);
+	        alert("开始更新价格");
+	    }});
+	});
+	$("#priceStart").click(function(){
+		console.info("start");
+	    $.ajax({url:"start?jobName=更新价格",success:function(result){
+	        console.info(result);
+	        if(result.message){
+	        	alert(result.message);
+	        }else{
+	        	alert("已开始");
+	        }
+	    }});
+	});
+	$("#priceStop").click(function(){
+	    $.ajax({url:"stop?jobName=更新价格",success:function(result){
+	        console.info(result);
+	        if(result.message){
+	        	alert(result.message);
+	        }else{
+	        	alert("已暂停");
+	        }
+	    }});
+	});
+	$("#priceStatus").click(function(){
+	    $.ajax({url:"getStatus?jobName=更新价格",success:function(result){
+	        console.info(result);
+	        alert("信息："+result.message+"\n目前状态："+result.running+"\n目前总数："+result.totalRequestsCount+"\n队列数目："+result.leftRequestsCount);
+	    }});
 	});
 }
 

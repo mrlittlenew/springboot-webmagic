@@ -42,7 +42,7 @@ public class JingDongServiceImpl implements JingDongService{
 		}
 		//String startUrl="https://list.jd.com/list.html?cat=1316,1625,1671";
 		HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
-    	httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("10.12.251.1",8080,"","")));
+    	httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("180.118.32.100",9000,"","")));
 
     	Spider spider=Spider.create(new JingDongPageProcesser(productRep));
     	spider.addUrl(startUrl);
@@ -70,12 +70,13 @@ public class JingDongServiceImpl implements JingDongService{
     		String price_url = "https://p.3.cn/prices/mgets?skuIds=J_"+item.getSku();
     		spider.addUrl(price_url);
     	}
-    	
+    	//for test
+    	//String price_url = "https://p.3.cn/prices/mgets?skuIds=J_13517587277";
+		//spider.addUrl(price_url);
     	if(saveToDataBasePipeline!=null){
     		spider.addPipeline(saveToDataBasePipeline);
     	}
-    	SpiderMonitor monitor = SpiderMonitor.instance();
-    	monitor.register(spider);
+    	spider.thread(200);
     	spider.start();
     	return spider;
 	}
