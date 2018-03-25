@@ -1,17 +1,19 @@
 package online.mrlittlenew.webmagic.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.management.JMException;
 
 import online.mrlittlenew.webmagic.domain.JingDongProduct;
 import online.mrlittlenew.webmagic.domain.JingDongProductInfo;
+import online.mrlittlenew.webmagic.domain.JingDongProductInfoHandler;
+import online.mrlittlenew.webmagic.handler.JingDongProductHandler;
 import online.mrlittlenew.webmagic.pipeline.SaveToDataBasePipeline;
 import online.mrlittlenew.webmagic.processer.JingDongPageProcesser;
 import online.mrlittlenew.webmagic.processer.JingDongUpdatePriceProcesser;
 import online.mrlittlenew.webmagic.repository.JingDongPriceRepository;
+import online.mrlittlenew.webmagic.repository.JingDongProductInfoHandlerRepository;
 import online.mrlittlenew.webmagic.repository.JingDongProductInfoRepository;
 import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
 import online.mrlittlenew.webmagic.service.JingDongService;
@@ -38,6 +40,8 @@ public class JingDongServiceImpl implements JingDongService{
 	private JingDongProductRepository productRep;
 	@Autowired
 	private JingDongProductInfoRepository productInfoRep;
+	@Autowired
+	private JingDongProductInfoHandlerRepository productInfoHandlerRep;
 	@Autowired
 	private JingDongPriceRepository priceRep;
 	@Override
@@ -92,13 +96,17 @@ public class JingDongServiceImpl implements JingDongService{
 	@Override
 	public void productInfoHandle() {
 		List<JingDongProduct> list = productRep.findAll();
+		List<JingDongProductInfoHandler> handlerList = productInfoHandlerRep.findAll();
+		//handleInfo(p,"种类","抽纸","抽纸",false);
+		//handleInfo(p,"种类","卷纸","卷纸",false);
+		JingDongProductHandler handler=new JingDongProductHandler(productInfoRep,handlerList);
+
 		List<String> namelist =new ArrayList<String>();
 		for(JingDongProduct p:list){
+			handler.handleInfo(p);
 			List<JingDongProductInfo> infoList = productInfoRep.findBySku(p.getSku());
 			if(infoList.size()==0){
 				namelist.add(p.getName());
-				handleInfo(p,"种类","抽纸","抽纸",false);
-				handleInfo(p,"种类","卷纸","卷纸",false);
 			}
 		}
 		for(String name:namelist){
@@ -107,26 +115,7 @@ public class JingDongServiceImpl implements JingDongService{
 		logger.info("=====ending=========");
 	}
 
-	private void handleInfo(JingDongProduct product,String categories,String unit,String keyword,boolean hasNum) {
-		JingDongProductInfo info =productInfoRep.findBySkuAndCategoriesAndUnit(product.getSku(), categories, unit);
-		if(info==null){
-			info = new JingDongProductInfo();
-		}
-		
-		info.setLastUpdateDate(new Date());
-		String name= product.getName();
-		info.setSku(product.getSku());
-		info.setCategories(categories);
-		if(name!=null&&name.contains(keyword)){
-			info.setUnit(unit);
-		}else{
-			return;
-		}
-		//处理数字
-		
-		//保存到数据库
-		productInfoRep.save(info);
-	}
+
 	
 	
 	
