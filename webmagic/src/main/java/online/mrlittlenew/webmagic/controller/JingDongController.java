@@ -100,5 +100,13 @@ public class JingDongController {
 
 		return "开始计划更新价格，jobName="+jobName;
 	}
+	
+	
+	@RequestMapping("/info")
+	public String info() {
+		jingDongService.productInfoHandle();
+
+		return "开始更新";
+	}
 
 }

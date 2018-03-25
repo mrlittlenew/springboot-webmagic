@@ -1,17 +1,23 @@
 package online.mrlittlenew.webmagic.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.management.JMException;
 
 import online.mrlittlenew.webmagic.domain.JingDongProduct;
+import online.mrlittlenew.webmagic.domain.JingDongProductInfo;
 import online.mrlittlenew.webmagic.pipeline.SaveToDataBasePipeline;
 import online.mrlittlenew.webmagic.processer.JingDongPageProcesser;
 import online.mrlittlenew.webmagic.processer.JingDongUpdatePriceProcesser;
 import online.mrlittlenew.webmagic.repository.JingDongPriceRepository;
+import online.mrlittlenew.webmagic.repository.JingDongProductInfoRepository;
 import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
 import online.mrlittlenew.webmagic.service.JingDongService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +31,13 @@ import us.codecraft.webmagic.scheduler.FileCacheQueueScheduler;
 
 @Service
 public class JingDongServiceImpl implements JingDongService{
-	
+	private static Logger logger = LoggerFactory.getLogger(JingDongServiceImpl.class);
 	@Autowired
 	private SaveToDataBasePipeline saveToDataBasePipeline;
 	@Autowired
 	private JingDongProductRepository productRep;
+	@Autowired
+	private JingDongProductInfoRepository productInfoRep;
 	@Autowired
 	private JingDongPriceRepository priceRep;
 	@Override
@@ -79,6 +87,43 @@ public class JingDongServiceImpl implements JingDongService{
     	spider.thread(200);
     	spider.start();
     	return spider;
+	}
+
+	@Override
+	public void productInfoHandle() {
+		List<JingDongProduct> list = productRep.findAll();
+		List<String> namelist =new ArrayList<String>();
+		for(JingDongProduct p:list){
+			List<JingDongProductInfo> infoList = productInfoRep.findBySku(p.getSku());
+			if(infoList.size()==0){
+				namelist.add(p.getName());
+				handleInfo(p,"种类","抽纸","抽纸",false);
+				handleInfo(p,"种类","卷纸","卷纸",false);
+			}
+		}
+		for(String name:namelist){
+			logger.info("====="+name);
+		}
+		logger.info("=====ending=========");
+	}
+
+	private void handleInfo(JingDongProduct product,String categories,String unit,String keyword,boolean hasNum) {
+		JingDongProductInfo info =productInfoRep.findBySkuAndCategoriesAndUnit(product.getSku(), categories, unit);
+		if(info==null){
+			info = new JingDongProductInfo();
+		}
+		
+		info.setLastUpdateDate(new Date());
+		String name= product.getName();
+		info.setSku(product.getSku());
+		info.setCategories(categories);
+		if(name.contains(keyword)){
+			info.setUnit(unit);
+		}
+		//处理数字
+		
+		//保存到数据库
+		productInfoRep.save(info);
 	}
 	
 	

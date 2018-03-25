@@ -30,6 +30,9 @@
 		<button type="button" id='priceStart'  class="btn btn-default"> 继 续 更 新  </button>
 		<button type="button" id='priceStop'   class="btn btn-default"> 暂 停 更 新  </button>
 	</p>
+	<p> 
+		<button type="button" id='info'  class="btn btn-default"> 处 理 信 息  </button>
+	</p>
 
 
     <!-- Optional JavaScript -->
@@ -120,6 +123,12 @@ function buttonInit(){
 	    $.ajax({url:"getStatus?jobName=更新价格",success:function(result){
 	        console.info(result);
 	        alert("信息："+result.message+"\n目前状态："+result.running+"\n目前总数："+result.totalRequestsCount+"\n队列数目："+result.leftRequestsCount);
+	    }});
+	});
+	$("#info").click(function(){
+	    $.ajax({url:"info",success:function(result){
+	        console.info(result);
+	        alert("处理完成");
 	    }});
 	});
 }

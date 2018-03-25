@@ -8,4 +8,6 @@ public interface JingDongService {
 	public Spider process(String action) throws JMException;
 
 	public Spider updatePrice() throws JMException;
+	
+	public void productInfoHandle();
 }
