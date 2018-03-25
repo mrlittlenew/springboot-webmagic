@@ -1,6 +1,7 @@
 package online.mrlittlenew.webmagic.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.management.JMException;
@@ -114,6 +115,49 @@ public class JingDongServiceImpl implements JingDongService{
 		}
 		logger.info("=====ending=========");
 	}
+
+	@Override
+	public List<JingDongProductInfoHandler> getHandlerList() {
+		return productInfoHandlerRep.findAll();
+	}
+
+	@Override
+	public JingDongProductInfoHandler getHandlerById(Long id) {
+		if(id==null){
+			return new JingDongProductInfoHandler();
+		}
+		return productInfoHandlerRep.getOne(id);
+	}
+
+	@Override
+	public void delHandler(Long id) {
+		productInfoHandlerRep.delete(id);
+		
+	}
+
+	@Override
+	public JingDongProductInfoHandler updateHandler(
+			JingDongProductInfoHandler handler) {
+		JingDongProductInfoHandler po=null;
+		if(handler.getId()!=null){
+			po = productInfoHandlerRep.findOne(handler.getId());
+		}
+		if(po==null){
+			po= new JingDongProductInfoHandler();
+			po.setId(handler.getId());
+		}
+		po.setActive(handler.getActive());
+		po.setCategories(handler.getCategories());
+		po.setCatId(handler.getCatId());
+		po.setHasNumber(handler.getHasNumber());
+		po.setKeyWord(handler.getKeyWord());
+		po.setKeyWordOther(handler.getKeyWordOther());
+		po.setUnit(handler.getUnit());
+		po.setLastUpdateDate(new Date());
+
+		return productInfoHandlerRep.save(po);
+	}
+	
 
 
 	

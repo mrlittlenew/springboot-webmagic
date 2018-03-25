@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+
+    <title>分析器 列表</title>
+  </head>
+  <body>
+  <button type="button" id='create' class="btn btn-default" onclick="addHandler()"> 创 建  </button>
+  
+    <table class="table">
+  <caption>基本的表格布局</caption>
+  <thead>
+
+    <tr>
+      <th>操作</th>
+      <th>处理分类</th>
+      <th>处理单位</th>
+      <th>启用</th>
+      <th>提取数字</th>
+      <th>针对类目ID</th>
+      <th>关键字</th>
+      <th>辅助关键字</th>
+    </tr>
+
+  </thead>
+  <tbody>
+	<tr th:each="handler:${data}">
+		<td>
+			<button type="button" class="btn btn-default" th:onclick="'editHandler('+${handler.id}+')'" onclick="editHandler()">编辑</button>
+			<button type="button" class="btn btn-default" th:onclick="'deleteHandler('+${handler.id}+')'" onclick="deleteHandler()">删除</button>
+		</td>
+		<td th:text="${handler.categories}">Red Chair</td>
+		<td th:text="${handler.unit}">Red Chair</td>
+		<td th:text="${handler.active}">Red Chair</td>
+		<td th:text="${handler.hasNumber}">Red Chair</td>
+		<td th:text="${handler.catId}">Red Chair</td>
+		<td th:text="${handler.keyWord}">Red Chair</td>
+		<td th:text="${handler.keyWordOther}">Red Chair</td>
+	</tr>
+  </tbody>
+</table>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/webjars/jquery/jquery.js"></script>
+    <script src="/webjars/popper.js/1.12.9-1/popper.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
+<script type="text/javascript">
+$(function(){
+	
+})
+function deleteHandler(id){
+ 	$.ajax({url:"delHandler?id="+id,success:function(result){
+        console.info(result);
+        alert("已经删除");
+        window.location.reload();
+    }});
+}
+function editHandler(id){
+	window.location.href="handlerForm?id="+id;
+}
+function addHandler(){
+	window.location.href="handlerForm";
+}
+</script>

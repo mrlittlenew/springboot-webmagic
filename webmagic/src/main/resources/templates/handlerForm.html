@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+
+    <title>分析器 列表</title>
+  </head>
+  <body>
+   
+   <form role="form" action="updateHandler">
+    <input type="hidden" class="form-control" name="id" th:value="${handler.id}"></input>
+  <div class="form-group">
+    <label for="name">处理分类</label>
+    <input type="text" class="form-control" name="categories" th:value="${handler.categories}" placeholder="请输入"></input>
+  </div>
+  <div class="form-group">
+    <label for="name">处理单位</label>
+    <input type="text" class="form-control" name="unit" th:value="${handler.unit}" placeholder="请输入"></input>
+  </div>
+  <div class="form-group">
+    <label for="name">启用</label>
+    <input type="text" class="form-control" name="active" th:value="${handler.active}" placeholder="请输入"></input>
+  </div>
+  <div class="form-group">
+    <label for="name">提取数字</label>
+    <input type="text" class="form-control" name="hasNumber" th:value="${handler.hasNumber}" placeholder="请输入"></input>
+  </div>
+  <div class="form-group">
+    <label for="name">针对类目ID</label>
+    <input type="text" class="form-control" name="catId" th:value="${handler.catId}" placeholder="请输入"></input>
+  </div>
+  <div class="form-group">
+    <label for="name">关键字</label>
+    <input type="text" class="form-control" name="keyWord" th:value="${handler.keyWord}" placeholder="请输入"></input>
+  </div>
+   <div class="form-group">
+    <label for="name">辅助关键字</label>
+    <input type="text" class="form-control" name="keyWordOther" th:value="${handler.keyWordOther}" placeholder="请输入"></input>
+  </div>
+  
+  <button type="submit" class="btn btn-default">提交</button>
+</form>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/webjars/jquery/jquery.js"></script>
+    <script src="/webjars/popper.js/1.12.9-1/popper.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>

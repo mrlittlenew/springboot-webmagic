@@ -32,6 +32,7 @@
 	</p>
 	<p> 
 		<button type="button" id='info'  class="btn btn-default"> 处 理 信 息  </button>
+		<button type="button" id='handler'  class="btn btn-default"> 处 理 方 式  </button>
 	</p>
 
 
@@ -130,6 +131,9 @@ function buttonInit(){
 	        console.info(result);
 	        alert("处理完成");
 	    }});
+	});
+	$("#handler").click(function(){
+		window.location.href="handlerList";
 	});
 }
 
