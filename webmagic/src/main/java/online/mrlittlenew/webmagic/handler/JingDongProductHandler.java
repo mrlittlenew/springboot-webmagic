@@ -2,6 +2,8 @@ package online.mrlittlenew.webmagic.handler;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import online.mrlittlenew.webmagic.domain.JingDongProduct;
 import online.mrlittlenew.webmagic.domain.JingDongProductInfo;
@@ -49,7 +51,13 @@ public class JingDongProductHandler{
 		}
 		//处理数字
 		if("Y".equals(hasNum)){
-			
+			Pattern p = Pattern.compile("[0-9]+"+keyword);
+			Matcher m = p.matcher(name);
+			if (m.find()) {
+			  String numStr=m.group().replace(keyword, "");
+			  logger.info("numStr:"+numStr);
+			  info.setNum(Double.valueOf(numStr));
+			}
 		}else{
 			info.setNum(0d);
 		}
@@ -57,7 +65,5 @@ public class JingDongProductHandler{
 		//保存到数据库
 		productInfoRep.save(info);
 	}
-
-	
 	
 }
