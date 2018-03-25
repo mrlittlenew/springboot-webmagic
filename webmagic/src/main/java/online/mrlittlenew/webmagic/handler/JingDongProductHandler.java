@@ -28,12 +28,38 @@ public class JingDongProductHandler{
 	public void handleInfo(JingDongProduct product) {
 		logger.info("product.getCatId():"+product.getCatId());
 		for(JingDongProductInfoHandler handler:handlerList){
-			if(product.getCatId()!=null&&product.getCatId().contains(handler.getCatId())){
+			if(matchHandler(product,handler)){
 				handleInfo( product,handler.getCategories(),handler.getUnit(),handler.getKeyWord(),handler.getHasNumber());
 			}
 		}
 	}
 	
+	private boolean matchHandler(JingDongProduct product,JingDongProductInfoHandler handler) {
+		if(product.getCatId()==null){
+			return false;
+		}
+		if(product.getName()==null){
+			return false;
+		}
+		if(!product.getCatId().contains(handler.getCatId())){
+			return false;
+		}
+		if(!product.getName().contains(handler.getKeyWord())){
+			return false;
+		}
+		
+		String otherKeyword = handler.getKeyWordOther();
+		if(otherKeyword!=null){
+			String[] keywordArr = otherKeyword.split(",");
+			for(String kw:keywordArr){
+				if(!product.getName().contains(kw)){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	private void handleInfo(JingDongProduct product,String categories,String unit,String keyword,String hasNum) {
 		logger.info("handleInfo:"+product.getName()+","+categories+","+unit+","+keyword);
 		JingDongProductInfo info =productInfoRep.findBySkuAndCategoriesAndUnit(product.getSku(), categories, unit);
@@ -57,6 +83,9 @@ public class JingDongProductHandler{
 			  String numStr=m.group().replace(keyword, "");
 			  logger.info("numStr:"+numStr);
 			  info.setNum(Double.valueOf(numStr));
+			}else{
+				logger.info("notfound匹配错误");
+				return;
 			}
 		}else{
 			info.setNum(0d);
@@ -64,6 +93,18 @@ public class JingDongProductHandler{
 		
 		//保存到数据库
 		productInfoRep.save(info);
+	}
+	public static void main(String[] args) {
+		String name="舒洁（Kleenex）湿厕纸 旅行装10片 私处清洁湿纸巾湿巾 可搭配卷纸卫生纸使用";
+		String keyword="卷";
+		Pattern p = Pattern.compile("[0-9]+"+keyword);
+		Matcher m = p.matcher(name);
+		if (m.find()) {
+		  String numStr=m.group().replace(keyword, "");
+		  logger.info("numStr:"+numStr);
+		}else{
+			logger.info("notfound");
+		}
 	}
 	
 }

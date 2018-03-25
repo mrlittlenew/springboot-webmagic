@@ -96,7 +96,7 @@ public class JingDongServiceImpl implements JingDongService{
 	@Override
 	public void productInfoHandle() {
 		List<JingDongProduct> list = productRep.findAll();
-		List<JingDongProductInfoHandler> handlerList = productInfoHandlerRep.findAll();
+		List<JingDongProductInfoHandler> handlerList = productInfoHandlerRep.findByActive("Y");
 		//handleInfo(p,"种类","抽纸","抽纸",false);
 		//handleInfo(p,"种类","卷纸","卷纸",false);
 		JingDongProductHandler handler=new JingDongProductHandler(productInfoRep,handlerList);

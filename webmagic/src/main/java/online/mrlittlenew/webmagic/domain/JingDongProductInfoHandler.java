@@ -19,7 +19,9 @@ public class JingDongProductInfoHandler {
     private String categories;
 	private String unit;
     private String keyWord;
+    private String keyWordOther;
     private String hasNumber;
+    private String active;
     private Date lastUpdateDate;
     
     public String getCatId() {
@@ -66,6 +68,18 @@ public class JingDongProductInfoHandler {
 	}
 	public void setHasNumber(String hasNumber) {
 		this.hasNumber = hasNumber;
+	}
+	public String getKeyWordOther() {
+		return keyWordOther;
+	}
+	public void setKeyWordOther(String keyWordOther) {
+		this.keyWordOther = keyWordOther;
+	}
+	public String getActive() {
+		return active;
+	}
+	public void setActive(String active) {
+		this.active = active;
 	}
 	
 }
