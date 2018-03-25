@@ -117,8 +117,10 @@ public class JingDongServiceImpl implements JingDongService{
 		String name= product.getName();
 		info.setSku(product.getSku());
 		info.setCategories(categories);
-		if(name.contains(keyword)){
+		if(name!=null&&name.contains(keyword)){
 			info.setUnit(unit);
+		}else{
+			return;
 		}
 		//处理数字
 		
