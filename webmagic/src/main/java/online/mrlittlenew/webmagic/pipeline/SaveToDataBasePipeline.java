@@ -33,6 +33,18 @@ public class SaveToDataBasePipeline implements Pipeline{
 	public void process(ResultItems resultItems, Task task) {
 		Date now=new Date();
 		JingDongProduct item=resultItems.get("item");
+		JingDongPrice price=resultItems.get("price");
+		if(price!=null){
+			if(item==null){
+				item=productRep.findOne(price.getSku());
+			}
+			if(item!=null){
+				item.setLastPrice(price.getPrice());
+			}
+			price.setLastUpdateDate(now);
+			priceRep.save(price);	
+		}
+		
 		if(item!=null){
 			item.setLastUpdateDate(now);
 			productRep.save(item);	
@@ -44,11 +56,7 @@ public class SaveToDataBasePipeline implements Pipeline{
 			htmlRep.save(html);	
 		}
 
-		JingDongPrice price=resultItems.get("price");
-		if(price!=null){
-			price.setLastUpdateDate(now);
-			priceRep.save(price);	
-		}
+		
 	
 	}
 

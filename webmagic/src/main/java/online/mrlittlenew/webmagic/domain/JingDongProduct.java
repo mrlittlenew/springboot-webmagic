@@ -14,13 +14,14 @@ public class JingDongProduct {
     @Id
     private Long sku;
     private String name;
+    private Double lastPrice;
+    private String catId;
+    private String catName;
+    private String shopId;
     private String shopName;
     private String seller;
-    private String catName;
-    private String description;
-    private String catId;
-    private String shopId;
     private String venderId;
+    private String description;
     private Date lastUpdateDate;
     
 
@@ -90,6 +91,12 @@ public class JingDongProduct {
 	}
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
+	}
+	public Double getLastPrice() {
+		return lastPrice;
+	}
+	public void setLastPrice(Double lastPrice) {
+		this.lastPrice = lastPrice;
 	}
 
    

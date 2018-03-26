@@ -5,7 +5,7 @@ import java.util.List;
 import javax.management.JMException;
 
 import online.mrlittlenew.webmagic.domain.JingDongProductInfoHandler;
-
+import online.mrlittlenew.webmagic.dto.JingDongProductDto;
 import us.codecraft.webmagic.Spider;
 
 public interface JingDongService {
@@ -22,4 +22,8 @@ public interface JingDongService {
 	public void delHandler(Long id);
 
 	public JingDongProductInfoHandler updateHandler(JingDongProductInfoHandler handler);
+
+	void test();
+
+	public List<JingDongProductDto> getProductList();
 }

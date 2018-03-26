@@ -6,16 +6,15 @@ import java.util.Set;
 
 import javax.management.JMException;
 
-import online.mrlittlenew.webmagic.domain.JingDongProductInfoHandler;
-import online.mrlittlenew.webmagic.dto.JobStatus;
-import online.mrlittlenew.webmagic.service.JingDongService;
-import online.mrlittlenew.webmagic.service.impl.JingDongServiceImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import online.mrlittlenew.webmagic.domain.JingDongProductInfoHandler;
+import online.mrlittlenew.webmagic.dto.JobStatus;
+import online.mrlittlenew.webmagic.service.JingDongService;
+import online.mrlittlenew.webmagic.service.impl.JingDongServiceImpl;
 import us.codecraft.webmagic.Spider;
 
 @RestController
@@ -122,6 +121,12 @@ public class JingDongController {
 		jingDongService.updateHandler(handler);
 
 		return "已更新<a href='handlerList'>返回</a>";
+	}
+	
+	@RequestMapping("/test3")
+	public String test3() {
+		jingDongService.test();
+		return "开始";
 	}
 
 }

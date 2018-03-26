@@ -136,6 +136,16 @@ public class JingDongUtil {
     	
     	
 		//保存数据到PO
+		double priceNum =0;
+		if(updatePrice){
+    		JingDongPriceDto priceDto = JingDongUtil.getPriceBySku(sku);
+    		priceNum = priceDto.getPrice();
+    		JingDongPrice price = new JingDongPrice();
+        	price.setSku(sku);
+        	price.setPrice(priceNum);
+        	page.putField("price", price);
+    	}
+		
     	JingDongProduct item=new JingDongProduct();
     	item.setSku(sku);
     	item.setName(name);
@@ -146,6 +156,7 @@ public class JingDongUtil {
     	item.setCatId(catId);
     	item.setShopId(shopId);
     	item.setVenderId(venderId);
+    	item.setLastPrice(priceNum);
     	page.putField("item", item);
     	
     	JingDongProductHtml html=new JingDongProductHtml();
@@ -153,15 +164,8 @@ public class JingDongUtil {
     	html.setHtml(page.getRawText());
     	page.putField("html", html);
     	
-    	JingDongPrice price=null;
-    	if(updatePrice){
-    		JingDongPriceDto priceDto = JingDongUtil.getPriceBySku(sku);
-    		double priceNum = priceDto.getPrice();
-    		price=new JingDongPrice();
-        	price.setSku(sku);
-        	price.setPrice(priceNum);
-        	page.putField("price", price);
-    	}
+    	
+    	
 
     	return match;
     }

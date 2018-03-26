@@ -53,21 +53,8 @@ public class PageController {
 	}
 	@RequestMapping("/product")
 	String product(Model model) {
-		Sort sort = new Sort(Direction.DESC, "lastUpdateDate");
-		Pageable pageable = new PageRequest(0, 30, sort);
-		Page<JingDongProduct> list = productRep.findAll(pageable);
-		List<JingDongProductDto> data=new ArrayList<JingDongProductDto>(); 
-		for(JingDongProduct p:list){
-			JingDongProductDto dto=new JingDongProductDto();
-			List<JingDongPrice> price = priceRep.findBySkuOrderByLastUpdateDateDesc(p.getSku());
-			dto.setSku(p.getSku());
-			dto.setName(p.getName());
-			dto.setShopName(p.getShopName());
-			if(price!=null&&price.size()>0){
-				dto.setPrice(price.get(0).getPrice());
-			}
-			data.add(dto);
-		}
+		List<JingDongProductDto> data = jingDongService.getProductList();
+		
 
 		model.addAttribute("data",data);  
 		return "product";

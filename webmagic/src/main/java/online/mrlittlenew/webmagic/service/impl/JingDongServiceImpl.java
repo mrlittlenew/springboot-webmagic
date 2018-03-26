@@ -6,9 +6,21 @@ import java.util.List;
 
 import javax.management.JMException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Service;
+
+import online.mrlittlenew.webmagic.dao.JingDongDao;
 import online.mrlittlenew.webmagic.domain.JingDongProduct;
 import online.mrlittlenew.webmagic.domain.JingDongProductInfo;
 import online.mrlittlenew.webmagic.domain.JingDongProductInfoHandler;
+import online.mrlittlenew.webmagic.dto.JingDongProductDto;
 import online.mrlittlenew.webmagic.handler.JingDongProductHandler;
 import online.mrlittlenew.webmagic.pipeline.SaveToDataBasePipeline;
 import online.mrlittlenew.webmagic.processer.JingDongPageProcesser;
@@ -18,12 +30,6 @@ import online.mrlittlenew.webmagic.repository.JingDongProductInfoHandlerReposito
 import online.mrlittlenew.webmagic.repository.JingDongProductInfoRepository;
 import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
 import online.mrlittlenew.webmagic.service.JingDongService;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.monitor.SpiderMonitor;
@@ -45,6 +51,8 @@ public class JingDongServiceImpl implements JingDongService{
 	private JingDongProductInfoHandlerRepository productInfoHandlerRep;
 	@Autowired
 	private JingDongPriceRepository priceRep;
+	@Autowired
+	private JingDongDao jingDongDao;
 	@Override
 	public Spider process(String action) throws JMException {
 		String startUrl="https://item.jd.com/2877592.html";
@@ -159,7 +167,41 @@ public class JingDongServiceImpl implements JingDongService{
 	}
 	
 
+	@Override
+	public void test() {
+		List<Object[]> list =  productInfoRep.findProductDtoList();
+		
+		for(Object[] item:list){
+			JingDongProductDto dto=new JingDongProductDto();
+			dto.setSku(Long.valueOf(getValue(item[0])));
+			dto.setName(getValue(item[1]));
+			System.out.println(dto);
+		}
 
+		System.out.println(list.size());
+	}
+	
+	private String getValue(Object obj){
+		return obj==null?"":obj.toString();
+	}
+
+	@Override
+	public List<JingDongProductDto> getProductList() {
+		Sort sort = new Sort(Direction.DESC, "lastUpdateDate");
+		Pageable pageable = new PageRequest(0, 30, sort);
+		Page<JingDongProduct> list = productRep.findAll(pageable);
+		List<JingDongProductDto> data=new ArrayList<JingDongProductDto>(); 
+		for(JingDongProduct p:list){
+			JingDongProductDto dto=new JingDongProductDto();
+			dto.setSku(p.getSku());
+			dto.setName(p.getName());
+			dto.setShopName(p.getShopName());
+			dto.setPrice(p.getLastPrice());
+			dto.setLastUpdateDate(p.getLastUpdateDate());
+			data.add(dto);
+		}
+		return data;
+	}
 	
 	
 	

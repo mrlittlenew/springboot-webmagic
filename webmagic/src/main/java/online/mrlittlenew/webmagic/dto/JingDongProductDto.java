@@ -3,12 +3,15 @@ package online.mrlittlenew.webmagic.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Id;
+
+
 public class JingDongProductDto implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6060079035275912614L;
-	
+	@Id
 	private Long sku;
     private String name;
     private String shopName;
@@ -87,4 +90,11 @@ public class JingDongProductDto implements Serializable{
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	@Override
+	public String toString() {
+		return "JingDongProductDto [sku=" + sku + ", name=" + name + ", shopName=" + shopName + ", seller=" + seller
+				+ ", catName=" + catName + ", description=" + description + ", catId=" + catId + ", shopId=" + shopId
+				+ ", venderId=" + venderId + ", price=" + price + ", lastUpdateDate=" + lastUpdateDate + "]";
+	}
+	
 }
