@@ -34,6 +34,10 @@
 		<button type="button" id='info'  class="btn btn-default"> 处 理 信 息  </button>
 		<button type="button" id='handler'  class="btn btn-default"> 处 理 方 式  </button>
 	</p>
+	
+	<p> 
+		<button type="button" id='productInfo'  class="btn btn-default"> 分 析 结 果  </button>
+	</p>
 
 
     <!-- Optional JavaScript -->
@@ -92,6 +96,9 @@ function buttonInit(){
 	});
 	$("#result").click(function(){
 		window.location.href="product";
+	});
+	$("#productInfo").click(function(){
+		window.location.href="productInfo";
 	});
 	$("#price").click(function(){
 	    $.ajax({url:"updatePrice?jobName=更新价格",success:function(result){

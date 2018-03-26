@@ -21,6 +21,7 @@ import online.mrlittlenew.webmagic.domain.JingDongProduct;
 import online.mrlittlenew.webmagic.domain.JingDongProductInfo;
 import online.mrlittlenew.webmagic.domain.JingDongProductInfoHandler;
 import online.mrlittlenew.webmagic.dto.JingDongProductDto;
+import online.mrlittlenew.webmagic.dto.JingDongProductInfoDto;
 import online.mrlittlenew.webmagic.handler.JingDongProductHandler;
 import online.mrlittlenew.webmagic.pipeline.SaveToDataBasePipeline;
 import online.mrlittlenew.webmagic.processer.JingDongPageProcesser;
@@ -201,6 +202,28 @@ public class JingDongServiceImpl implements JingDongService{
 			data.add(dto);
 		}
 		return data;
+	}
+
+	@Override
+	public List<JingDongProductInfoDto> getProductInfoList() {
+		List<JingDongProductInfoDto> dataList=new ArrayList<JingDongProductInfoDto>();
+		List<Object[]> list = productRep.findProductInfoList();
+		for(Object[] obj:list){
+			JingDongProductInfoDto dto= new JingDongProductInfoDto();
+			dto.setSku(Long.valueOf(nullToEmpty(obj[0])));
+			dto.setName(nullToEmpty(obj[1]));
+			dto.setPrice(Double.valueOf(nullToEmpty(obj[2])));
+			dto.setUnit(nullToEmpty(obj[3]));
+			dto.setNum(Double.valueOf(nullToEmpty(obj[4])));
+			dto.setPriceOfUnit(Double.valueOf(nullToEmpty(obj[5])));
+			dataList.add(dto);
+		}
+		
+		return dataList;
+	}
+	
+	private String nullToEmpty(Object obj){
+		return obj==null?"":obj.toString();
 	}
 	
 	

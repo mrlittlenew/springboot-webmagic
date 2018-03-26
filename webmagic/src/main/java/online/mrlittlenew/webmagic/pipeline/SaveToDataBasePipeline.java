@@ -51,7 +51,7 @@ public class SaveToDataBasePipeline implements Pipeline{
 		}
 		
 		JingDongProductHtml html=resultItems.get("html");
-		if(item!=null){
+		if(html!=null){
 			html.setLastUpdateDate(now);
 			htmlRep.save(html);	
 		}

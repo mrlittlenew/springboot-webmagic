@@ -1,26 +1,19 @@
 package online.mrlittlenew.webmagic.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import online.mrlittlenew.webmagic.domain.JingDongPrice;
-import online.mrlittlenew.webmagic.domain.JingDongProduct;
-import online.mrlittlenew.webmagic.domain.JingDongProductInfoHandler;
-import online.mrlittlenew.webmagic.dto.JingDongProductDto;
-import online.mrlittlenew.webmagic.repository.JingDongPriceRepository;
-import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
-import online.mrlittlenew.webmagic.service.JingDongService;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import online.mrlittlenew.webmagic.domain.JingDongProductInfoHandler;
+import online.mrlittlenew.webmagic.dto.JingDongProductDto;
+import online.mrlittlenew.webmagic.dto.JingDongProductInfoDto;
+import online.mrlittlenew.webmagic.repository.JingDongPriceRepository;
+import online.mrlittlenew.webmagic.repository.JingDongProductRepository;
+import online.mrlittlenew.webmagic.service.JingDongService;
 
 
 @Controller
@@ -54,10 +47,14 @@ public class PageController {
 	@RequestMapping("/product")
 	String product(Model model) {
 		List<JingDongProductDto> data = jingDongService.getProductList();
-		
-
 		model.addAttribute("data",data);  
 		return "product";
+	}
+	@RequestMapping("/productInfo")
+	String productInfo(Model model) {
+		List<JingDongProductInfoDto> data = jingDongService.getProductInfoList();
+		model.addAttribute("data",data);  
+		return "productInfo";
 	}
 	@RequestMapping("/handlerList")
 	String handlerList(Model model) {

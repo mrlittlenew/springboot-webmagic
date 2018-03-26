@@ -22,6 +22,15 @@ public class JingDongPriceDto implements Serializable{
 	private double tpp;
 	@JsonProperty("up")
 	private String up;
+	@JsonProperty("sp")
+	private String sp;
+	
+	public String getSp() {
+		return sp;
+	}
+	public void setSp(String sp) {
+		this.sp = sp;
+	}
 	public String getId() {
 		return id;
 	}
