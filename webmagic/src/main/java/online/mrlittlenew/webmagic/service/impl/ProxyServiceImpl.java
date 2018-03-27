@@ -44,7 +44,7 @@ public class ProxyServiceImpl implements ProxyService{
     	if(proxyInfoPipeline!=null){
     		spider.addPipeline(proxyInfoPipeline);
     	}
-    	spider.setDownloader(httpClientDownloader);
+    	//spider.setDownloader(httpClientDownloader);
     	spider.start();
     	return spider;
 	}
