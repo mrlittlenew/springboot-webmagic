@@ -35,7 +35,7 @@ public class ProxyServiceImpl implements ProxyService{
 	public Spider getKuaiDaiLi(Integer pageNum) {
 		String startUrl="https://www.kuaidaili.com/free/inha/";
 		HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
-    	httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("10.12.251.1",8080,"","")));
+    	httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("114.215.102.168",8081,"","")));
     	Spider spider=Spider.create(new KuaiDaiLiPageProcesser());
     	for(int i=1; i<=pageNum;i++){
     		spider.addUrl("https://www.kuaidaili.com/free/inha/"+i+"/");
@@ -47,7 +47,7 @@ public class ProxyServiceImpl implements ProxyService{
     	if(proxyInfoPipeline!=null){
     		spider.addPipeline(proxyInfoPipeline);
     	}
-    	//spider.setDownloader(httpClientDownloader);
+    	spider.setDownloader(httpClientDownloader);
     	spider.start();
     	return spider;
 	}
