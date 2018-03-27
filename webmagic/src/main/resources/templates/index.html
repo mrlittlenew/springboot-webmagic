@@ -39,6 +39,11 @@
 		<button type="button" id='productInfo'  class="btn btn-default"> 分 析 结 果  </button>
 	</p>
 
+	<p> 
+		<button type="button" id='getProxy'  class="btn btn-default"> 获 取 代 理  </button>
+		<button type="button" id='testProxy'  class="btn btn-default"> 检 测 代 理  </button>
+	</p>
+	
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -54,6 +59,18 @@ $(function(){
 })
 
 function buttonInit(){
+	$("#getProxy").click(function(){
+	    $.ajax({url:"proxy/getKuaiDaiLi",success:function(result){
+	    	console.info(result);
+	    	alert("正在获取代理");
+	    }});
+	});
+	$("#testProxy").click(function(){
+	    $.ajax({url:"proxy/testProxy",success:function(result){
+	        console.info(result);
+	        alert("正在测试代理");
+	    }});
+	});
 	$("#create").click(function(){
 	    $.ajax({url:"jingdong?jobName=获取商品",success:function(result){
 	        console.info(result);
