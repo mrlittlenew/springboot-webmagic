@@ -24,6 +24,13 @@ public class ProxyInfoPipeline implements Pipeline{
 	public void process(ResultItems resultItems, Task task) {
 		List<ProxyInfo> proxyList=resultItems.get("proxyList");
 		proxyInfoRep.save(proxyList);
+		/*for(ProxyInfo info:proxyList){
+			List<ProxyInfo> list = proxyInfoRep.findByIpAndPort(info.getIp(), info.getPort());
+			if(list.size()==0){
+				proxyInfoRep.save(info);
+			}
+		}*/
+		
 	}
 
 }

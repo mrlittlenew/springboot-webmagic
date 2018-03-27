@@ -32,17 +32,20 @@ public class ProxyServiceImpl implements ProxyService{
 	private ProxyInfoRepository proxyInfoRepository;
 
 	@Override
-	public Spider getKuaiDaiLi() {
+	public Spider getKuaiDaiLi(Integer pageNum) {
 		String startUrl="https://www.kuaidaili.com/free/inha/";
 		HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
     	httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("10.12.251.1",8080,"","")));
     	Spider spider=Spider.create(new KuaiDaiLiPageProcesser());
-    	for(int i=1; i<=10;i++){
+    	for(int i=1; i<=pageNum;i++){
     		spider.addUrl("https://www.kuaidaili.com/free/inha/"+i+"/");
+    	}
+    	if(pageNum==0){
+    		spider.addUrl(startUrl);
     	}
     	
     	//spider.setScheduler(new FileCacheQueueScheduler("/data/webmagic/scheduler"));
-    	spider.thread(1);
+    	spider.thread(50);
     	spider.addPipeline(new ConsolePipeline());
     	if(proxyInfoPipeline!=null){
     		spider.addPipeline(proxyInfoPipeline);
@@ -55,7 +58,7 @@ public class ProxyServiceImpl implements ProxyService{
 	
 	
 	public static void main(String[] args) {
-		new ProxyServiceImpl().getKuaiDaiLi();
+		new ProxyServiceImpl().getKuaiDaiLi(10);
 	}
 
 

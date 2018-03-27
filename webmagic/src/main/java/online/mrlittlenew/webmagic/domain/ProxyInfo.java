@@ -26,6 +26,7 @@ public class ProxyInfo {
     private String password;
     private String active;
     private String result;
+    private String recordDate;
     private Date lastUpdateDate;
     
 	public Long getId() {
@@ -105,6 +106,12 @@ public class ProxyInfo {
 	}
 	public void setResult(String result) {
 		this.result = result;
+	}
+	public String getRecordDate() {
+		return recordDate;
+	}
+	public void setRecordDate(String recordDate) {
+		this.recordDate = recordDate;
 	}
     
     

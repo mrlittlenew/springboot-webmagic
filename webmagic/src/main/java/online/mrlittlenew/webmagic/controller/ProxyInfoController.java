@@ -2,6 +2,7 @@ package online.mrlittlenew.webmagic.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import online.mrlittlenew.webmagic.service.ProxyService;
@@ -14,8 +15,8 @@ public class ProxyInfoController {
 	private ProxyService proxyService;
 
 	@RequestMapping("/getKuaiDaiLi")
-	public String getKuaiDaiLi() {
-		proxyService.getKuaiDaiLi();
+	public String getKuaiDaiLi(@RequestParam("pageNum") Integer pageNum) {
+		proxyService.getKuaiDaiLi(pageNum);
 		
 		return "开始计划.";
 	}

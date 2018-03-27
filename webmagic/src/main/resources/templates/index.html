@@ -60,7 +60,7 @@ $(function(){
 
 function buttonInit(){
 	$("#getProxy").click(function(){
-	    $.ajax({url:"proxy/getKuaiDaiLi",success:function(result){
+	    $.ajax({url:"proxy/getKuaiDaiLi?pageNum=100",success:function(result){
 	    	console.info(result);
 	    	alert("正在获取代理");
 	    }});

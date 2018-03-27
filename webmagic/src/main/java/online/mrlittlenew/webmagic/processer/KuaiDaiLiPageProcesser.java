@@ -18,7 +18,7 @@ public class KuaiDaiLiPageProcesser implements PageProcessor {
 
 	
 	private static Logger logger = LoggerFactory.getLogger(KuaiDaiLiPageProcesser.class);
-	private Site site = Site.me().setRetryTimes(3).setSleepTime(1000).setTimeOut(6000).addHeader("Accept-Encoding", "/")
+	private Site site = Site.me().setRetryTimes(3).setSleepTime(1000).setTimeOut(1000).addHeader("Accept-Encoding", "/")
 			.setUserAgent(HttpClientUtil.USER_AGENT);
 
 	public KuaiDaiLiPageProcesser() {
@@ -41,6 +41,8 @@ public class KuaiDaiLiPageProcesser implements PageProcessor {
 			String type=row.css("td[data-title='类型']").replace("<td data-title=\"类型\">", "").replace("</td>", "").get();
 			String local=row.css("td[data-title='位置']").replace("<td data-title=\"位置\">", "").replace("</td>", "").get();
 			String speed=row.css("td[data-title='响应速度']").replace("<td data-title=\"响应速度\">", "").replace("</td>", "").replace("秒", "").get();
+			String recordDate=row.css("td[data-title='位置']").replace("<td data-title=\"最后验证时间\">", "").replace("</td>", "").get();
+			
 			logger.info(ip+":"+port);
 			ProxyInfo proxy=new ProxyInfo();
 			proxy.setIp(ip);
@@ -62,6 +64,7 @@ public class KuaiDaiLiPageProcesser implements PageProcessor {
 			proxy.setUserName("");
 			proxy.setPassword("");
 			proxy.setResult("");
+			proxy.setRecordDate(recordDate);
 			proxy.setLastUpdateDate(new Date());
 			proxyList.add(proxy);
 		}
