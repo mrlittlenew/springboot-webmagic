@@ -41,6 +41,7 @@ public class ProxyTestRunnable implements Runnable {
 			try{
 				HttpClientDownloader downloader = new HttpClientDownloader();
 				downloader.setProxyProvider(SimpleProxyProvider.from(new Proxy(proxyInfo.getIp(),proxyInfo.getPort(),"","")));
+				
 				Html result = downloader.download("http://mrlittlenew.online/proxytest.php");
 				String jsonStr = result.xpath("//body/text()").get();
 		    	logger.debug("jsonStr:"+jsonStr);

@@ -37,7 +37,10 @@ public class ProxyServiceImpl implements ProxyService{
 		HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
     	httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("10.12.251.1",8080,"","")));
     	Spider spider=Spider.create(new KuaiDaiLiPageProcesser());
-    	spider.addUrl(startUrl);
+    	for(int i=1; i<=10;i++){
+    		spider.addUrl("https://www.kuaidaili.com/free/inha/"+i+"/");
+    	}
+    	
     	//spider.setScheduler(new FileCacheQueueScheduler("/data/webmagic/scheduler"));
     	spider.thread(1);
     	spider.addPipeline(new ConsolePipeline());

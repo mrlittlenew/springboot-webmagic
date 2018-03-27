@@ -32,8 +32,6 @@ public class KuaiDaiLiPageProcesser implements PageProcessor {
 		
 		//List<Selectable> proxyRows = page.getHtml().xpath("//div[@id='list']/table/tbody/html()").selectList(selector)
 
-		
-		
 		List<Selectable> proxyRows = page.getHtml().css("#list table tbody tr").nodes();
 		List<ProxyInfo> proxyList=new ArrayList<ProxyInfo>();
 		for(Selectable row:proxyRows){
@@ -64,8 +62,8 @@ public class KuaiDaiLiPageProcesser implements PageProcessor {
 		}
 		page.putField("proxyList", proxyList);
 		//代理翻页
-		List<String> links = page.getHtml().xpath("//div[@id=listnav]").links().all();
-		page.addTargetRequests(links);
+		//List<String> links = page.getHtml().xpath("//div[@id=listnav]").links().all();
+		//page.addTargetRequests(links);
 		
 	}
 
