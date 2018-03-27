@@ -41,7 +41,7 @@ public class KuaiDaiLiPageProcesser implements PageProcessor {
 			String type=row.css("td[data-title='类型']").replace("<td data-title=\"类型\">", "").replace("</td>", "").get();
 			String local=row.css("td[data-title='位置']").replace("<td data-title=\"位置\">", "").replace("</td>", "").get();
 			String speed=row.css("td[data-title='响应速度']").replace("<td data-title=\"响应速度\">", "").replace("</td>", "").replace("秒", "").get();
-			String recordDate=row.css("td[data-title='位置']").replace("<td data-title=\"最后验证时间\">", "").replace("</td>", "").get();
+			String recordDate=row.css("td[data-title='最后验证时间']").replace("<td data-title=\"最后验证时间\">", "").replace("</td>", "").get();
 			
 			logger.info(ip+":"+port);
 			ProxyInfo proxy=new ProxyInfo();

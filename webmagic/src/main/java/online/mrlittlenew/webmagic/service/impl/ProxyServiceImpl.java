@@ -40,12 +40,9 @@ public class ProxyServiceImpl implements ProxyService{
     	for(int i=1; i<=pageNum;i++){
     		spider.addUrl("https://www.kuaidaili.com/free/inha/"+i+"/");
     	}
-    	if(pageNum==0){
-    		spider.addUrl(startUrl);
-    	}
     	
     	//spider.setScheduler(new FileCacheQueueScheduler("/data/webmagic/scheduler"));
-    	spider.thread(50);
+    	//spider.thread(50);
     	spider.addPipeline(new ConsolePipeline());
     	if(proxyInfoPipeline!=null){
     		spider.addPipeline(proxyInfoPipeline);
