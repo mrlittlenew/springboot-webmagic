@@ -54,7 +54,7 @@ public class ProxyTestRunnable implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+				proxyInfo.setActive("N");
 				if(ipInfo.getRemoteAddr().contains(remoteAddr)){
 		    		proxyInfo.setPublicness("失效");
 		    	}else if(ipInfo.getHttpForwarded().contains(remoteAddr)){
@@ -63,13 +63,13 @@ public class ProxyTestRunnable implements Runnable {
 		    		proxyInfo.setPublicness("透明");
 		    	}else{
 		    		proxyInfo.setPublicness("高匿");
+		    		proxyInfo.setActive("Y");
 		    	}
 				proxyInfo.setResult(jsonStr);
 			}catch (Exception e) {
 				proxyInfo.setPublicness("超时");
 				proxyInfo.setResult("timeout");
 			}
-			logger.debug("hahahahahahahahahahahahahaha");
 			logger.debug("Thread " + threadName + " exiting.#"+remoteAddr+"->"+proxyInfo.getIp()+":"+proxyInfo.getPort()+"->"+proxyInfo.getPublicness()+" ##jsonStr:"+proxyInfo.getResult());
 			proxyInfo.setLastUpdateDate(new Date());
 			proxyInfoRepository.save(proxyInfo);

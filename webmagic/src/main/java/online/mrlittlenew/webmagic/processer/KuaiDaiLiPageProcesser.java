@@ -57,6 +57,11 @@ public class KuaiDaiLiPageProcesser implements PageProcessor {
 			}catch (Exception e) {
 				proxy.setSpeed(0d);
 			}
+			proxy.setActive("");
+			proxy.setAnonymous("Y");
+			proxy.setUserName("");
+			proxy.setPassword("");
+			proxy.setResult("");
 			proxy.setLastUpdateDate(new Date());
 			proxyList.add(proxy);
 		}
