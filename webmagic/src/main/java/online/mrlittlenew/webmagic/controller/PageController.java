@@ -2,6 +2,10 @@ package online.mrlittlenew.webmagic.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +35,9 @@ public class PageController {
 		return "index";
 	}
 	@RequestMapping("/test")
-	String test() {
+	String test(Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		request.getHeaderNames();
+		request.getHeader("");
 		return "test";
 	}
 	@RequestMapping("/test2")

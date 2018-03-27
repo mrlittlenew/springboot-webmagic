@@ -18,9 +18,9 @@ import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 @Component
-public class SaveToDataBasePipeline implements Pipeline{
+public class JingDongPipeline implements Pipeline{
 
-	private static Logger logger = LoggerFactory.getLogger(SaveToDataBasePipeline.class);
+	private static Logger logger = LoggerFactory.getLogger(JingDongPipeline.class);
 	
 	@Autowired
 	private JingDongProductRepository productRep;

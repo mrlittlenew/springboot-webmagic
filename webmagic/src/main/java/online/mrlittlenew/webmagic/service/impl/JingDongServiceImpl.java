@@ -23,7 +23,7 @@ import online.mrlittlenew.webmagic.domain.JingDongProductInfoHandler;
 import online.mrlittlenew.webmagic.dto.JingDongProductDto;
 import online.mrlittlenew.webmagic.dto.JingDongProductInfoDto;
 import online.mrlittlenew.webmagic.handler.JingDongProductHandler;
-import online.mrlittlenew.webmagic.pipeline.SaveToDataBasePipeline;
+import online.mrlittlenew.webmagic.pipeline.JingDongPipeline;
 import online.mrlittlenew.webmagic.processer.JingDongPageProcesser;
 import online.mrlittlenew.webmagic.processer.JingDongUpdatePriceProcesser;
 import online.mrlittlenew.webmagic.repository.JingDongPriceRepository;
@@ -43,7 +43,7 @@ import us.codecraft.webmagic.scheduler.FileCacheQueueScheduler;
 public class JingDongServiceImpl implements JingDongService{
 	private static Logger logger = LoggerFactory.getLogger(JingDongServiceImpl.class);
 	@Autowired
-	private SaveToDataBasePipeline saveToDataBasePipeline;
+	private JingDongPipeline savePipeline;
 	@Autowired
 	private JingDongProductRepository productRep;
 	@Autowired
@@ -71,8 +71,8 @@ public class JingDongServiceImpl implements JingDongService{
     	spider.setScheduler(new FileCacheQueueScheduler("/data/webmagic/scheduler"));
     	//spider.thread(50);
     	spider.addPipeline(new ConsolePipeline());
-    	if(saveToDataBasePipeline!=null){
-    		spider.addPipeline(saveToDataBasePipeline);
+    	if(savePipeline!=null){
+    		spider.addPipeline(savePipeline);
     	}
     	//spider.setDownloader(httpClientDownloader);
     	SpiderMonitor monitor = SpiderMonitor.instance();
@@ -95,8 +95,8 @@ public class JingDongServiceImpl implements JingDongService{
     	//for test
     	//String price_url = "https://p.3.cn/prices/mgets?skuIds=J_13517587277";
 		//spider.addUrl(price_url);
-    	if(saveToDataBasePipeline!=null){
-    		spider.addPipeline(saveToDataBasePipeline);
+    	if(savePipeline!=null){
+    		spider.addPipeline(savePipeline);
     	}
     	spider.thread(200);
     	spider.start();
