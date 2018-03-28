@@ -15,8 +15,8 @@ public class ProxyInfoController {
 	private ProxyService proxyService;
 
 	@RequestMapping("/getKuaiDaiLi")
-	public String getKuaiDaiLi(@RequestParam("pageNum") Integer pageNum) {
-		proxyService.getKuaiDaiLi(pageNum);
+	public String getKuaiDaiLi(@RequestParam("pageNum") Integer pageNum,@RequestParam(value="proxyIP",required=false) String proxyIP,@RequestParam(value="proxyPort",required=false)Integer proxyPort,@RequestParam(value="threadNum",required=false)Integer threadNum) {
+		proxyService.getKuaiDaiLi(pageNum,proxyIP,proxyPort,threadNum);
 		
 		return "开始计划.";
 	}

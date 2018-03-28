@@ -32,22 +32,27 @@ public class ProxyServiceImpl implements ProxyService{
 	private ProxyInfoRepository proxyInfoRepository;
 
 	@Override
-	public Spider getKuaiDaiLi(Integer pageNum) {
+	public Spider getKuaiDaiLi(Integer pageNum, String proxyIP, Integer proxyPort,Integer threadNum) {
 		String startUrl="https://www.kuaidaili.com/free/inha/";
-		HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
-    	httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("114.215.102.168",8081,"","")));
     	Spider spider=Spider.create(new KuaiDaiLiPageProcesser());
     	for(int i=1; i<=pageNum;i++){
     		spider.addUrl("https://www.kuaidaili.com/free/inha/"+i+"/");
     	}
     	
     	//spider.setScheduler(new FileCacheQueueScheduler("/data/webmagic/scheduler"));
-    	//spider.thread(50);
+    	if(threadNum!=null&&threadNum>0){
+    		spider.thread(threadNum);
+    	}
     	spider.addPipeline(new ConsolePipeline());
     	if(proxyInfoPipeline!=null){
     		spider.addPipeline(proxyInfoPipeline);
     	}
-    	//spider.setDownloader(httpClientDownloader);
+    	if(proxyIP!=null&&proxyPort!=null){
+			HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
+			httpClientDownloader.setProxyProvider(SimpleProxyProvider.from(new Proxy(proxyIP,proxyPort,"","")));
+			spider.setDownloader(httpClientDownloader);
+		}
+    	
     	spider.start();
     	return spider;
 	}
@@ -56,6 +61,13 @@ public class ProxyServiceImpl implements ProxyService{
 	
 	public static void main(String[] args) {
 		new ProxyServiceImpl().getKuaiDaiLi(10);
+	}
+
+
+
+	private void getKuaiDaiLi(Integer pageNum) {
+		getKuaiDaiLi(10,null,null,null);
+		
 	}
 
 
