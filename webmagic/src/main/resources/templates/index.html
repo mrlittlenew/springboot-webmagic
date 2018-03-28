@@ -41,6 +41,7 @@
 
 	<p> 
 		<button type="button" id='getProxy'  class="btn btn-default"> 获 取 代 理  </button>
+		<button type="button" id='stopGetProxy'  class="btn btn-default"> 停 止 获 取  </button>
 		<button type="button" id='testProxy'  class="btn btn-default"> 检 测 代 理  </button>
 	</p>
 	
@@ -59,6 +60,12 @@ $(function(){
 })
 
 function buttonInit(){
+	$("#stopGetProxy").click(function(){
+	    $.ajax({url:"proxy/stop",success:function(result){
+	    	console.info(result);
+	    	alert("已停止");
+	    }});
+	});
 	$("#getProxy").click(function(){
 	    $.ajax({url:"proxy/getKuaiDaiLi?pageNum=100",success:function(result){
 	    	console.info(result);

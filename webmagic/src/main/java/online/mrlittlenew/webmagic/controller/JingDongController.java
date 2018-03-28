@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import online.mrlittlenew.webmagic.domain.JingDongProductInfoHandler;
 import online.mrlittlenew.webmagic.dto.JobStatus;
 import online.mrlittlenew.webmagic.service.JingDongService;
+import online.mrlittlenew.webmagic.service.ProxyService;
 import online.mrlittlenew.webmagic.service.impl.JingDongServiceImpl;
 import us.codecraft.webmagic.Spider;
 
@@ -29,6 +30,10 @@ public class JingDongController {
 		new JingDongServiceImpl().updatePrice();
 		//https://www.jd.com/allSort.aspx
 	}
+	
+	@Autowired
+	private ProxyService proxyService;
+	
 	@RequestMapping("/jingdong")
 	public String jingdong(@RequestParam("jobName") String jobName) {
 		Spider spiderFromMap=spiderMap.get(jobName);
