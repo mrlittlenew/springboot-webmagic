@@ -18,7 +18,7 @@ public class KuaiDaiLiPageProcesser implements PageProcessor {
 
 	
 	private static Logger logger = LoggerFactory.getLogger(KuaiDaiLiPageProcesser.class);
-	private Site site = Site.me().setRetryTimes(3).setSleepTime(1000).setTimeOut(1000).addHeader("Accept-Encoding", "/")
+	private Site site = Site.me().setRetryTimes(3).setSleepTime(1000).setTimeOut(6000).addHeader("Accept-Encoding", "/")
 			.setUserAgent(HttpClientUtil.USER_AGENT);
 
 	public KuaiDaiLiPageProcesser() {
